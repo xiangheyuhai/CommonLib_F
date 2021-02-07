@@ -4,14 +4,12 @@
 
 #ifdef STM32_F1				//待完善
 #include "stm32h7xx_hal.h"
-#include "cmsis_os.h"
 #endif
 
 
 
 #ifdef STM32_F4				//待完善
 #include "stm32h7xx_hal.h"
-#include "cmsis_os.h"
 #endif
 
 

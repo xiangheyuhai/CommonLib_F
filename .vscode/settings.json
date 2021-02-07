@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "nativeinterface.h": "c",
+        "keypad.h": "c"
+    }
+}
