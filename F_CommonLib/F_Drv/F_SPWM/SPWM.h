@@ -5,9 +5,6 @@
 #ifndef __F_SPWM_H__
 #define __F_SPWM_H__
 
-//几种mcu都包含这几个函数，所以直接声明就行
-
-
 
 
 #endif

@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "nativeinterface.h": "c",
-        "keypad.h": "c"
+        "keypad.h": "c",
+        "pwm.h": "c",
+        "keypad_drv.h": "c",
+        "commondrv.h": "c"
     }
 }

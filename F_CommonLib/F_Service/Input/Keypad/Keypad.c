@@ -1,59 +1,52 @@
-#include "F_CommonLib/F_Service/Input/Keypad/Keypad.h"
-#include "F_CommonLib/F_Service/Input/Keypad/Keypad_drv.h"
+#include "all_config.h"
 
-
-
-#ifdef Service_Input_Keypad
 //解耦
+#ifdef Service_Input_Keypad
+#include "Keypad.h"
 
-#define DELAY_TIME 20
 
-#define PULL_UP 0 //上下拉选择,下拉选择0
+//上下拉选择
+#ifdef Pull_Up
+GPIO_MODE = Pull_Up;
+state_row = PIN_SET；
+state_col = PIN_RESET；
+#endif
 
-char CONTROL  = PULL_UP;
-unsigned char SCAN_ROW = '0';
-unsigned char SCAN_COL = '0';
+#ifdef Pull_Down
+GPIO_MODE = Pull_Down;
+state_row = PIN_RESET；
+state_col = PIN_SET；
+#endif
 
-void initKeypad(void (*callback)(unsigned char x, unsigned char y)){
-	callback(SCAN_ROW,SCAN_COL);
+unsigned char i,j,k,g_x,g_y;
+void initKeypad(void (*callback)(unsigned char x, unsigned char y))
+{
+	x = g_x;
+	y = g_y;
 }
 
-void ROW_scan(unsigned char index){
-	SCAN_COL=index;
-	writeRow('A',!CONTROL);
-	writeRow('1',CONTROL);
-	if(readCol(index)==1)  SCAN_ROW='1';
-	writeRow('A',!CONTROL);
-	writeRow('2',CONTROL);
-	if(readCol(index)==1)  SCAN_ROW='2';
-	writeRow('A',!CONTROL);
-	writeRow('3',CONTROL);
-	if(readCol(index)==1)  SCAN_ROW='3';
-	writeRow('A',!CONTROL);
-	writeRow('4',CONTROL);
-	if(readCol(index)==1)  SCAN_ROW='4';
-
-}
-
-int scanKeypad(){
-	SCAN_ROW=SCAN_COL='0';
-	writeRow('A',!CONTROL);
-	if(readCol('1')==!CONTROL) {
-		myDelayMS(DELAY_TIME);
-		if(readCol('1')==!CONTROL)  ROW_scan('1');
-	 }
-	if(readCol('2')==!CONTROL) {
-		myDelayMS(DELAY_TIME);
-		if(readCol('2')==!CONTROL)  ROW_scan('2');
-		}
-	if(readCol('3')==!CONTROL) {
-		myDelayMS(DELAY_TIME);
-				if(readCol('3')==!CONTROL)  ROW_scan('3');
-		}
-	if(readCol('4')==!CONTROL) {
-		myDelayMS(DELAY_TIME);
-				if(readCol('4')==!CONTROL)  ROW_scan('4');
-		}
+void scanKeypad()
+{		
+	for (i = 1; i <= 4; i++)
+	{
+		for(j = 1; j <= 4; j++)		//设置各行均为state_row
+		{
+			WriteRow(j,state_row);
+		}		
+		writeRow(i, state_col);		//设置i列为state_col
+		for(a = 1; a <= 4; a++)		//扫描i列是否有
+		{
+			if (ReadCol(a) == state_Up)
+			{
+				HAL_Delay(10);
+				if (ReadCol(a) == state_Up)
+				{	
+					g_x = i;
+					g_y = k;
+				}
+			}
+		}		
+	}
 }
 
 
